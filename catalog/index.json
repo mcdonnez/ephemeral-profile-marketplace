@@ -1,6 +1,6 @@
 {
   "catalogVersion": 1,
-  "generatedHint": "Replace artifact.url host with your GitHub raw URL after fork; local path must stay profiles/<id>/<semver>/profile.json",
+  "generatedHint": "Canonical catalog URL: https://raw.githubusercontent.com/mcdonnez/ephemeral-profile-marketplace/main/catalog/index.json",
   "entries": [
     {
       "id": "example-com",
@@ -11,7 +11,7 @@
       "origin": "https://example.com",
       "semver": "1.0.0",
       "artifact": {
-        "url": "https://raw.githubusercontent.com/YOUR_ORG/ephemeral/main/marketplace/profiles/example-com/1.0.0/profile.json",
+        "url": "https://raw.githubusercontent.com/mcdonnez/ephemeral-profile-marketplace/main/profiles/example-com/1.0.0/profile.json",
         "sha256": "83426a601ec0cd0f6d303bff27fb312f619ffb562415436dbbb6399e637f8d62",
         "profileFormat": "ephemeral-profile",
         "profileVersion": 2

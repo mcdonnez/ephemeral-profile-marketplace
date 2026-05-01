@@ -13,11 +13,13 @@ Curated [`ephemeral-profile`](https://github.com/search?q=ephemeral-profile) v2 
 
 ## Stable URL for the extension
 
-After this repo is on GitHub, pin a **tag** and point **Catalog URL** at raw.githubusercontent.com, for example:
+Canonical catalog (tracks `main`):
 
-`https://raw.githubusercontent.com/<ORG>/<REPO>/catalog/v1/catalog/index.json`
+`https://raw.githubusercontent.com/mcdonnez/ephemeral-profile-marketplace/main/catalog/index.json`
 
-Replace `<ORG>/<REPO>` and the tag (`catalog/v1`) with your fork. Using `main` is fine for development only.
+Repository: [github.com/mcdonnez/ephemeral-profile-marketplace](https://github.com/mcdonnez/ephemeral-profile-marketplace).
+
+You can pin a **tag** (`catalog/vN`) instead of `main` for immutable snapshots.
 
 ## Tagging policy
 
