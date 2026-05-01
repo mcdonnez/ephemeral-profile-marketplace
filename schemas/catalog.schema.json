@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ephemeral.local/schemas/marketplace-catalog.json",
+  "title": "Ephemeral marketplace catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalogVersion", "entries"],
+  "properties": {
+    "catalogVersion": { "type": "integer", "minimum": 1 },
+    "generatedHint": { "type": "string" },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/catalogEntry" }
+    }
+  },
+  "$defs": {
+    "catalogEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "description", "publisher", "origin", "semver", "artifact"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "publisher": { "type": "string", "minLength": 1 },
+        "license": { "type": "string" },
+        "origin": { "type": "string", "minLength": 8 },
+        "semver": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "minEphemeralExtensionSemver": { "type": "string" },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url", "sha256", "profileFormat", "profileVersion"],
+          "properties": {
+            "url": { "type": "string", "format": "uri", "pattern": "^https://" },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "profileFormat": { "const": "ephemeral-profile" },
+            "profileVersion": { "type": "integer", "const": 2 }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "catalogVersion": 1,
+  "generatedHint": "Replace artifact.url host with your GitHub raw URL after fork; local path must stay profiles/<id>/<semver>/profile.json",
+  "entries": [
+    {
+      "id": "example-com",
+      "title": "Example.com (illustrative)",
+      "description": "Minimal GET /api/status template for documentation and CI. Not affiliated with example.com.",
+      "publisher": "Ephemeral (sample)",
+      "license": "CC0-1.0",
+      "origin": "https://example.com",
+      "semver": "1.0.0",
+      "artifact": {
+        "url": "https://raw.githubusercontent.com/YOUR_ORG/ephemeral/main/marketplace/profiles/example-com/1.0.0/profile.json",
+        "sha256": "83426a601ec0cd0f6d303bff27fb312f619ffb562415436dbbb6399e637f8d62",
+        "profileFormat": "ephemeral-profile",
+        "profileVersion": 2
+      }
+    }
+  ]
+}

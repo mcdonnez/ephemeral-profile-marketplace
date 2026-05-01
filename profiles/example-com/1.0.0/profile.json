@@ -1,0 +1,26 @@
+{
+  "format": "ephemeral-profile",
+  "version": 2,
+  "exportedAt": "2026-04-30T00:00:00.000Z",
+  "documentOriginHint": "https://example.com",
+  "tools": [
+    {
+      "name": "GET_example_com_api_status",
+      "title": "API status",
+      "description": "GET https://example.com/api/status — minimal illustrative tool for marketplace CI and docs.",
+      "enabled": true,
+      "method": "GET",
+      "urlTemplate": "https://example.com/api/status",
+      "inputSchema": {
+        "type": "object",
+        "description": "Replay arguments: `path` fills `{placeholders}` in the tool URL template; `query` adds query-string parameters; `body` is the JSON request body for mutating methods (omit when unused).",
+        "properties": {
+          "path": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Path placeholder values keyed by placeholder name." },
+          "query": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Query parameters to append." },
+          "body": { "type": "object", "description": "JSON body for mutating requests.", "additionalProperties": true }
+        },
+        "additionalProperties": false
+      }
+    }
+  ]
+}
