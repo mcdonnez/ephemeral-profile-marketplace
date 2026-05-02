@@ -14,5 +14,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate catalog and profile artifacts
+      - name: Validate catalog and cookbook artifacts
         run: node scripts/validate.mjs

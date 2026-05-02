@@ -1,20 +1,20 @@
 {
   "catalogVersion": 1,
-  "generatedHint": "Canonical catalog URL: https://raw.githubusercontent.com/mcdonnez/ephemeral-profile-marketplace/main/catalog/index.json",
+  "generatedHint": "Canonical catalog URL: https://raw.githubusercontent.com/mcdonnez/cookbookmcp-marketplace/main/catalog/index.json",
   "entries": [
     {
       "id": "example-com",
       "title": "Example.com (illustrative)",
       "description": "Minimal GET /api/status template for documentation and CI. Not affiliated with example.com.",
-      "publisher": "Ephemeral (sample)",
+      "publisher": "Cookbook MCP (sample)",
       "license": "CC0-1.0",
       "origin": "https://example.com",
       "semver": "1.0.0",
       "artifact": {
-        "url": "https://raw.githubusercontent.com/mcdonnez/ephemeral-profile-marketplace/main/profiles/example-com/1.0.0/profile.json",
-        "sha256": "83426a601ec0cd0f6d303bff27fb312f619ffb562415436dbbb6399e637f8d62",
-        "profileFormat": "ephemeral-profile",
-        "profileVersion": 2
+        "url": "https://raw.githubusercontent.com/mcdonnez/cookbookmcp-marketplace/main/cookbooks/example-com/1.0.0/cookbook.json",
+        "sha256": "4047a22feff7cb522a7fb266386ae08de2edc3c7625015d2c6356630afa50271",
+        "cookbookFormat": "cookbookmcp-cookbook",
+        "cookbookVersion": 5
       }
     }
   ]

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ephemeral.local/schemas/marketplace-catalog.json",
-  "title": "Ephemeral marketplace catalog",
+  "$id": "https://cookbookmcp.local/schemas/marketplace-catalog.json",
+  "title": "Cookbook MCP marketplace catalog",
   "type": "object",
   "additionalProperties": false,
   "required": ["catalogVersion", "entries"],
@@ -26,16 +26,16 @@
         "license": { "type": "string" },
         "origin": { "type": "string", "minLength": 8 },
         "semver": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-        "minEphemeralExtensionSemver": { "type": "string" },
+        "minCookbookMcpExtensionSemver": { "type": "string" },
         "artifact": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["url", "sha256", "profileFormat", "profileVersion"],
+          "required": ["url", "sha256", "cookbookFormat", "cookbookVersion"],
           "properties": {
             "url": { "type": "string", "format": "uri", "pattern": "^https://" },
             "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-            "profileFormat": { "const": "ephemeral-profile" },
-            "profileVersion": { "type": "integer", "const": 2 }
+            "cookbookFormat": { "enum": ["cookbookmcp-cookbook", "cookbookmcp-profile"] },
+            "cookbookVersion": { "type": "integer", "minimum": 2 }
           }
         }
       }

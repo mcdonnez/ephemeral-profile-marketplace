@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* global console, process, URL */
 /**
- * Validates marketplace/catalog/index.json and each referenced profile artifact on disk.
+ * Validates marketplace/catalog/index.json and each referenced cookbook artifact on disk.
  * Run from repo root: node marketplace/scripts/validate.mjs
  */
 import crypto from 'node:crypto';
@@ -67,52 +67,56 @@ for (const entry of catalog.entries) {
   if (!/^[0-9]+\.[0-9]+\.[0-9]+$/.test(semver)) fail(`entry ${id}: semver must be MAJOR.MINOR.PATCH`);
 
   if (!artifact || typeof artifact !== 'object') fail(`entry ${id}: missing artifact`);
-  const { url, sha256, profileFormat, profileVersion } = artifact;
+  const { url, sha256, cookbookFormat, cookbookVersion } = artifact;
   if (typeof url !== 'string' || !url.startsWith('https://')) fail(`entry ${id}: artifact.url must be https`);
   if (typeof sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(sha256)) fail(`entry ${id}: artifact.sha256 must be 64 hex chars`);
-  if (profileFormat !== 'ephemeral-profile') fail(`entry ${id}: artifact.profileFormat must be ephemeral-profile`);
-  if (profileVersion !== 2) fail(`entry ${id}: artifact.profileVersion must be 2`);
-
-  const profilePath = path.join(MARKETPLACE_ROOT, 'profiles', id, semver, 'profile.json');
-  if (!fs.existsSync(profilePath)) {
-    fail(`entry ${id}: expected profile at ${path.relative(process.cwd(), profilePath)}`);
+  if (cookbookFormat !== 'cookbookmcp-cookbook' && cookbookFormat !== 'cookbookmcp-profile') {
+    fail(`entry ${id}: artifact.cookbookFormat must be cookbookmcp-cookbook or cookbookmcp-profile`);
+  }
+  if (typeof cookbookVersion !== 'number' || cookbookVersion < 2) {
+    fail(`entry ${id}: artifact.cookbookVersion must be >= 2`);
   }
 
-  const raw = fs.readFileSync(profilePath);
+  const cookbookPath = path.join(MARKETPLACE_ROOT, 'cookbooks', id, semver, 'cookbook.json');
+  if (!fs.existsSync(cookbookPath)) {
+    fail(`entry ${id}: expected cookbook at ${path.relative(process.cwd(), cookbookPath)}`);
+  }
+
+  const raw = fs.readFileSync(cookbookPath);
   const digest = sha256Hex(raw);
   if (digest !== sha256) {
     fail(
-      `entry ${id}: SHA-256 mismatch for ${profilePath}\n  catalog: ${sha256}\n  actual: ${digest}\n  Run shasum -a 256 on the file and update catalog/index.json`,
+      `entry ${id}: SHA-256 mismatch for ${cookbookPath}\n  catalog: ${sha256}\n  actual: ${digest}\n  Run shasum -a 256 on the file and update catalog/index.json`,
     );
   }
 
-  const profile = JSON.parse(raw.toString('utf8'));
-  if (profile.format !== 'ephemeral-profile') fail(`profile ${id}: format must be ephemeral-profile`);
-  if (profile.version !== 2) fail(`profile ${id}: version must be 2`);
-  if (!Array.isArray(profile.tools) || profile.tools.length === 0) fail(`profile ${id}: tools must be non-empty array`);
+  const cookbook = JSON.parse(raw.toString('utf8'));
+  if (cookbook.format !== 'cookbookmcp-cookbook' && cookbook.format !== 'cookbookmcp-profile') {
+    fail(`cookbook ${id}: format must be cookbookmcp-cookbook or cookbookmcp-profile`);
+  }
+  if (typeof cookbook.version !== 'number') fail(`cookbook ${id}: version required`);
+  if (!Array.isArray(cookbook.tools) || cookbook.tools.length === 0) fail(`cookbook ${id}: tools must be non-empty array`);
 
   const co = catalogOrigin(entry.origin);
   if (!co) fail(`entry ${id}: invalid catalog origin ${entry.origin}`);
 
-  if (profile.documentOriginHint != null && profile.documentOriginHint !== '') {
-    const dh = catalogOrigin(profile.documentOriginHint);
+  if (cookbook.documentOriginHint != null && cookbook.documentOriginHint !== '') {
+    const dh = catalogOrigin(cookbook.documentOriginHint);
     if (dh !== co) fail(`entry ${id}: documentOriginHint must match catalog origin`);
   }
 
-  profile.tools.forEach((tool, idx) => {
+  cookbook.tools.forEach((tool, idx) => {
     assertNoSensitiveToolFields(tool, idx);
     const u = toolOrigin(tool.urlTemplate);
-    if (!u) fail(`profile ${id} tool ${idx}: invalid urlTemplate`);
-    if (u !== co) fail(`profile ${id} tool ${idx}: urlTemplate origin ${u} must match entry origin ${co}`);
+    if (!u) fail(`cookbook ${id} tool ${idx}: invalid urlTemplate`);
+    if (u !== co) fail(`cookbook ${id} tool ${idx}: urlTemplate origin ${u} must match entry origin ${co}`);
   });
 
-  const suffix = `/profiles/${id}/${semver}/profile.json`;
+  const suffix = `/cookbooks/${id}/${semver}/cookbook.json`;
   try {
     const au = new URL(url);
     if (!au.pathname.replace(/\/+$/, '').endsWith(suffix.replace(/\/+$/, ''))) {
-      console.warn(
-        `warning: entry ${id}: artifact.url path should end with ${suffix} (got ${au.pathname})`,
-      );
+      console.warn(`warning: entry ${id}: artifact.url path should end with ${suffix} (got ${au.pathname})`);
     }
   } catch {
     console.warn(`warning: entry ${id}: could not parse artifact.url`);

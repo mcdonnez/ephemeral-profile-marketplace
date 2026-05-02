@@ -1,13 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ephemeral.local/schemas/marketplace-profile.json",
-  "title": "Ephemeral shareable profile (marketplace artifact)",
+  "$id": "https://cookbookmcp.local/schemas/marketplace-cookbook.json",
+  "title": "Cookbook MCP shareable cookbook (marketplace artifact)",
   "type": "object",
   "additionalProperties": true,
   "required": ["format", "version", "tools"],
   "properties": {
-    "format": { "const": "ephemeral-profile" },
-    "version": { "type": "integer", "const": 2 },
+    "format": {
+      "description": "Current exports use cookbookmcp-cookbook; cookbookmcp-profile is accepted for imports.",
+      "enum": ["cookbookmcp-cookbook", "cookbookmcp-profile"]
+    },
+    "version": { "type": "integer", "minimum": 2 },
     "exportedAt": { "type": "string" },
     "documentOriginHint": { "type": ["string", "null"] },
     "tools": {

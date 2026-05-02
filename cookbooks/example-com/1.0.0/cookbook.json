@@ -1,6 +1,6 @@
 {
-  "format": "ephemeral-profile",
-  "version": 2,
+  "format": "cookbookmcp-cookbook",
+  "version": 5,
   "exportedAt": "2026-04-30T00:00:00.000Z",
   "documentOriginHint": "https://example.com",
   "tools": [
